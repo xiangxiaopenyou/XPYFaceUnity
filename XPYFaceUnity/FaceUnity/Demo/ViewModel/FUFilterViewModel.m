@@ -27,9 +27,11 @@
             NSString *path = [[NSBundle mainBundle] pathForResource:@"face_beautification" ofType:@"bundle"];
             self.beauty = [[FUBeauty alloc] initWithPath:path name:@"FUBeauty"];
             self.beauty.heavyBlur = 0;
-            self.beauty.blurType = 2;
+            self.beauty.blurType = 3;
             self.beauty.faceShape = 4;
         }
+        // 默认滤镜
+        [self updateData:self.model.moduleData[1]];
     }
     return self;
 }

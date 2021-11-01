@@ -7,22 +7,34 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 #import <FURenderKit/FURenderKit.h>
-#import <FURenderKit/FUGLDisplayView.h>
+
+@protocol FUManagerProtocol <NSObject>
+
+//用于检测是否有ai人脸和人形
+- (void)faceUnityManagerCheckAI;
+
+@end
 
 @interface FUManager : NSObject
 
+@property (nonatomic, weak) id<FUManagerProtocol>delegate;
+
+@property (nonatomic, assign) BOOL isRender;
+
 + (FUManager *)shareManager;
 
-/// 调用SDK摄像头采集
-/// @param displayView 展示视图
-/// @param delegate 代理对象
 - (void)startCaptureWithDisplayView:(FUGLDisplayView *)displayView renderDelegate:(id)delegate;
 
 /// 销毁全部道具
 - (void)destoryItems;
 
-/// 切换摄像头
+/// 切换前后摄像头
 - (void)onCameraChange;
+
+/// 更新美颜磨皮效果（根据人脸检测置信度设置不同磨皮效果）
+- (void)updateBeautyBlurEffect;
 
 @end

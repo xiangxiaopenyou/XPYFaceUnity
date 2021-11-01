@@ -26,8 +26,13 @@
             NSString *path = [[NSBundle mainBundle] pathForResource:@"face_beautification" ofType:@"bundle"];
             self.beauty = [[FUBeauty alloc] initWithPath:path name:@"FUBeauty"];
             self.beauty.heavyBlur = 0;
-            self.beauty.blurType = 2;
+            self.beauty.blurType = 3;
             self.beauty.faceShape = 4;
+        }
+        
+        // 默认美肤
+        for (FUSubModel *subModel in self.model.moduleData) {
+            [self updateData:subModel];
         }
     }
     return self;
@@ -85,7 +90,14 @@
     }
 }
 
-- (BOOL)isDefaltValue {
+- (void)recover {
+    for (FUSubModel *subModel in self.model.moduleData) {
+        subModel.currentValue = subModel.defaultValue;
+        [self updateData:subModel];
+    }
+}
+
+- (BOOL)isDefaultValue {
     for (FUSubModel *subModel in self.model.moduleData) {
         int currentIntValue = subModel.isBidirection ? (int)(subModel.currentValue / subModel.ratio * 100 - 50) : (int)(subModel.currentValue / subModel.ratio * 100);
         int defaultIntValue = subModel.isBidirection ? (int)(subModel.defaultValue / subModel.ratio * 100 - 50) : (int)(subModel.defaultValue / subModel.ratio * 100);

@@ -22,11 +22,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// 当前选中项索引
 @property (nonatomic, assign) NSInteger selectedIndex;
 /// 是否需要Slider
-@property (nonatomic, assign, getter=isNeedSlider, readonly) BOOL needSlider;
+@property (nonatomic, assign, readonly, getter=isNeedSlider) BOOL needSlider;
 /// 是否正在渲染
 @property (nonatomic, assign, readonly, getter=isRendering)  BOOL rendering;
 /// 是否默认数据
-@property (nonatomic, assign, readonly, getter=isDefaltValue) BOOL defaultValue;
+@property (nonatomic, assign, readonly, getter=isDefaultValue) BOOL defaultValue;
 
 
 /// 初始化方法

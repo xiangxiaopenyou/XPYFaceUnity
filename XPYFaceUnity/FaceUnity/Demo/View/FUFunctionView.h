@@ -40,6 +40,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param viewModel FUViewModel
 - (instancetype)initWithFrame:(CGRect)frame viewModel:(FUViewModel *)viewModel;
 
+/// 刷新界面
+- (void)refreshSubviews;
+
 @end
 
 @interface FUFunctionCell : UICollectionViewCell

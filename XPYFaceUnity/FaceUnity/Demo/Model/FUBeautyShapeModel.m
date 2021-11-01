@@ -48,7 +48,15 @@
                     model.imageName = @"窄脸";
                     model.currentValue = 0.0;
                     model.defaultValue = 0.0;
-                    model.ratio = 0.5;
+                    model.ratio = 1.0;
+                }
+                    break;
+                case FUBeautyShapeItemCheekShort:{
+                    model.title = FULocalizedString(@"短脸");
+                    model.imageName = @"短脸";
+                    model.currentValue = 0.0;
+                    model.defaultValue = 0.0;
+                    model.ratio = 1.0;
                 }
                     break;
                 case FUBeautyShapeItemCheekSmall:{
@@ -56,7 +64,7 @@
                     model.imageName = @"小脸";
                     model.currentValue = 0.0;
                     model.defaultValue = 0.0;
-                    model.ratio = 0.5;
+                    model.ratio = 1.0;
                 }
                     break;
                 case FUBeautyShapeItemCheekBones:{

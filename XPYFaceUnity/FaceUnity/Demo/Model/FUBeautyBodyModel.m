@@ -19,6 +19,10 @@
     return FULocalizedString(@"美体");
 }
 
+- (NSString *)tip {
+    return @"未检测到人体";
+}
+
 - (NSArray<FUSubModel *> *)moduleData {
     if (!_moduleData) {
         NSMutableArray *models = [[NSMutableArray alloc] init];

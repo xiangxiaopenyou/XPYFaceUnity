@@ -44,6 +44,7 @@ typedef NS_ENUM(NSUInteger, FUBeautyShapeItem) {
     FUBeautyShapeItemCheekThinning,         // 瘦脸
     FUBeautyShapeItemCheekV,                // V脸
     FUBeautyShapeItemCheekNarrow,           // 窄脸
+    FUBeautyShapeItemCheekShort,            // 短脸
     FUBeautyShapeItemCheekSmall,            // 小脸
     FUBeautyShapeItemCheekBones,            // 瘦颧骨
     FUBeautyShapeItemLowerJaw,              // 瘦下颌骨

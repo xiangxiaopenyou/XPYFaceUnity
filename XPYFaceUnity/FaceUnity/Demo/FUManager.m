@@ -7,29 +7,30 @@
 //
 
 #import "FUManager.h"
+
 #import "authpack.h"
 
-#import <FURenderKit/FURenderKit.h>
-
-@interface FUManager ()
-
-@end
+#import "FUTestRecorder.h"
 
 static FUManager *shareManager = NULL;
 
 @implementation FUManager
 
-+ (FUManager *)shareManager {
++ (FUManager *)shareManager
+{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         shareManager = [[FUManager alloc] init];
     });
+
     return shareManager;
 }
 
 - (instancetype)init {
-    if (self = [super init]) {
+    self = [super init];
+    if (self) {
         CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+
         NSString *controllerPath = [[NSBundle mainBundle] pathForResource:@"controller_cpp" ofType:@"bundle"];
         NSString *controllerConfigPath = [[NSBundle mainBundle] pathForResource:@"controller_config" ofType:@"bundle"];
         FUSetupConfig *setupConfig = [[FUSetupConfig alloc] init];
@@ -40,7 +41,7 @@ static FUManager *shareManager = NULL;
         // 初始化 FURenderKit
         [FURenderKit setupWithSetupConfig:setupConfig];
         
-        [FURenderKit setLogLevel:FU_LOG_LEVEL_INFO];
+        [FURenderKit setLogLevel:FU_LOG_LEVEL_DEBUG];
         
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             // 加载人脸 AI 模型
@@ -61,9 +62,13 @@ static FUManager *shareManager = NULL;
             float flexible = 0.5;
             [FUAIKit setFaceTrackParam:@"mouth_expression_more_flexible" value:flexible];
             NSLog(@"---%lf",endTime);
+            
+            // 设置人脸算法质量
+            [FUAIKit shareKit].faceProcessorFaceLandmarkQuality = [FURenderKit devicePerformanceLevel] == FUDevicePerformanceLevelHigh ? FUFaceProcessorFaceLandmarkQualityHigh : FUFaceProcessorFaceLandmarkQualityMedium;
         });
+
+        [[FUTestRecorder shareRecorder] setupRecord];
         
-        NSLog(@"faceunitySDK version:%@",[FURenderKit getVersion]);
         [FUAIKit shareKit].maxTrackFaces = 4;
     }
     return self;
@@ -80,11 +85,36 @@ static FUManager *shareManager = NULL;
 }
 
 - (void)destoryItems {
-    [FURenderKit clear];
+    [FURenderKit shareRenderKit].beauty = nil;
+    [FURenderKit shareRenderKit].bodyBeauty = nil;
+    [FURenderKit shareRenderKit].makeup = nil;
+    [[FURenderKit shareRenderKit].stickerContainer removeAllSticks];
 }
+
 
 - (void)onCameraChange {
     [FUAIKit resetTrackedResult];
+}
+
+- (void)updateBeautyBlurEffect {
+    if (![FURenderKit shareRenderKit].beauty || ![FURenderKit shareRenderKit].beauty.enable) {
+        return;
+    }
+    if ([FURenderKit devicePerformanceLevel] == FUDevicePerformanceLevelHigh) {
+        // 根据人脸置信度设置不同磨皮效果
+        CGFloat score = [FUAIKit fuFaceProcessorGetConfidenceScore:0];
+        if (score > 0.95) {
+            [FURenderKit shareRenderKit].beauty.blurType = 3;
+            [FURenderKit shareRenderKit].beauty.blurUseMask = YES;
+        } else {
+            [FURenderKit shareRenderKit].beauty.blurType = 2;
+            [FURenderKit shareRenderKit].beauty.blurUseMask = NO;
+        }
+    } else {
+        // 设置精细磨皮效果
+        [FURenderKit shareRenderKit].beauty.blurType = 2;
+        [FURenderKit shareRenderKit].beauty.blurUseMask = NO;
+    }
 }
 
 @end

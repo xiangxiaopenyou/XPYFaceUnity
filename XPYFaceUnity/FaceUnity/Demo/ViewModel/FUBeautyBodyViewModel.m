@@ -16,13 +16,13 @@
 
 @implementation FUBeautyBodyViewModel
 
+@synthesize rendering = _rendering;
+
 - (instancetype)initWithSelectedIndex:(NSInteger)selectedIndex needSlider:(BOOL)isNeedSlider {
     self = [super initWithSelectedIndex:selectedIndex needSlider:isNeedSlider];
     if (self) {
         self.model = [[FUBeautyBodyModel alloc] init];
-        // 初始化bodyBeauty
-        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"body_slim" ofType:@"bundle"];
-        self.bodyBeauty = [[FUBodyBeauty alloc] initWithPath:filePath name:@"body_slim"];
+        _rendering = YES;
     }
     return self;
 }
@@ -30,12 +30,12 @@
 #pragma mark - Override methods
 
 - (void)startRender {
-    [super startRender];
+    _rendering = YES;
     [FURenderKit shareRenderKit].bodyBeauty = self.bodyBeauty;
 }
 
 - (void)stopRender {
-    [super stopRender];
+    _rendering = NO;
     [FURenderKit shareRenderKit].bodyBeauty = nil;
 }
 
@@ -71,7 +71,14 @@
     }
 }
 
-- (BOOL)isDefaltValue {
+- (void)recover {
+    for (FUSubModel *subModel in self.model.moduleData) {
+        subModel.currentValue = subModel.defaultValue;
+        [self updateData:subModel];
+    }
+}
+
+- (BOOL)isDefaultValue {
     for (FUSubModel *subModel in self.model.moduleData) {
         int currentIntValue = subModel.isBidirection ? (int)(subModel.currentValue / subModel.ratio * 100 - 50) : (int)(subModel.currentValue / subModel.ratio * 100);
         int defaultIntValue = subModel.isBidirection ? (int)(subModel.defaultValue / subModel.ratio * 100 - 50) : (int)(subModel.defaultValue / subModel.ratio * 100);
@@ -80,6 +87,14 @@
         }
     }
     return YES;
+}
+
+- (FUBodyBeauty *)bodyBeauty {
+    if (!_bodyBeauty) {
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"body_slim" ofType:@"bundle"];
+        _bodyBeauty = [[FUBodyBeauty alloc] initWithPath:filePath name:@"body_slim"];
+    }
+    return _bodyBeauty;
 }
 
 @end

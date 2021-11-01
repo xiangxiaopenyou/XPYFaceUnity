@@ -28,7 +28,8 @@ static NSString * const kFUBeautyCellIdentifierKey = @"FUBeautyCellIdentifier";
     self = [super initWithFrame:frame viewModel:viewModel];
     if (self) {
         [self configureUI];
-        [self refreshSubViews];
+        
+        [self refreshSubviews];
     }
     return self;
 }
@@ -67,9 +68,10 @@ static NSString * const kFUBeautyCellIdentifierKey = @"FUBeautyCellIdentifier";
 }
 
 #pragma mark - Instance methods
-- (void)refreshSubViews {
+- (void)refreshSubviews {
+    [super refreshSubviews];
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.viewModel.isDefaltValue) {
+        if (self.viewModel.isDefaultValue) {
             self.recoverButton.alpha = 0.6;
             self.recoverButton.userInteractionEnabled = NO;
         } else {

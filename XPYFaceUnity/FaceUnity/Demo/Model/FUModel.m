@@ -22,6 +22,10 @@
 
 @implementation FUModel
 
+- (NSString *)tip {
+    return @"未检测到人脸";
+}
+
 @end
 
 

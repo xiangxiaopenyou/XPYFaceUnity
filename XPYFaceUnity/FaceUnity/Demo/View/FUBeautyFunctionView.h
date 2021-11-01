@@ -16,8 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FUBeautyFunctionView : FUFunctionView
 
-- (void)refreshSubViews;
-
 @end
 
 @interface FUBeautyFunctionCell : FUFunctionCell

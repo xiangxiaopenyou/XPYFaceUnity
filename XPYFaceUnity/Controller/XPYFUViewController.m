@@ -26,7 +26,7 @@
     
     [[FUManager shareManager] startCaptureWithDisplayView:self.displayView renderDelegate:self];
     
-    [FUDemoManager setupFaceUnityDemoInView:self.view originY:CGRectGetHeight(self.view.frame) - 100];
+    [FUDemoManager setupFaceUnityDemoInController:self originY:CGRectGetHeight(self.view.frame) - 100];
 }
 
 #pragma mark - FURenderKitDelegate

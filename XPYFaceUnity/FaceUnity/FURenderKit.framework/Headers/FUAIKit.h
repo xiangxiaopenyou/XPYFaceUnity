@@ -18,6 +18,11 @@ typedef enum : NSUInteger {
     FUFaceProcessorDetectModeVideo,
 } FUFaceProcessorDetectMode;
 
+typedef enum : NSUInteger {
+    FUFaceProcessorFaceLandmarkQualityLow,
+    FUFaceProcessorFaceLandmarkQualityMedium,
+    FUFaceProcessorFaceLandmarkQualityHigh
+} FUFaceProcessorFaceLandmarkQuality;
 
 @interface FUAIKit : NSObject
 
@@ -25,9 +30,13 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, assign, readonly) int trackedFacesCount; // 跟踪到的人脸个数
 
+@property (nonatomic, assign) int maxTrackBodies; // 设置最大的人体跟踪个数 default is 1
+
 @property (nonatomic, assign) FUFaceProcessorDetectMode faceProcessorDetectMode; // 图像加载模式 default is FUFaceProcessorDetectModeVideo
 
 @property (nonatomic, assign) BOOL asyncTrackFace; //设置是否进行异步人脸跟踪
+
+@property (nonatomic, assign) FUFaceProcessorFaceLandmarkQuality faceProcessorFaceLandmarkQuality;  // 人脸算法质量
 
 + (instancetype)shareKit;
 
@@ -48,6 +57,11 @@ typedef enum : NSUInteger {
 + (void)resetHumanProcessor;
 
 + (int)aiHumanProcessorNums;
+
++ (int)aiFaceProcessorNums;
+
+//人脸检测置信度
++ (float)fuFaceProcessorGetConfidenceScore:(int)index;
 
 //ai手势识别
 + (int)aiHandDistinguishNums;

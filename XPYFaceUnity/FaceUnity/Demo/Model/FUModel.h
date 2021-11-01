@@ -44,6 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) FUModuleType type;
 /// 功能模块名称
 @property (nonatomic, copy) NSString *name;
+/// 检测提示
+@property (nonatomic, copy) NSString *tip;
 /// 功能模块数据
 @property (nonatomic, copy) NSArray<FUSubModel *> *moduleData;
 

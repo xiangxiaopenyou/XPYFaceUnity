@@ -10,7 +10,7 @@
 
 @interface FUSlider : UISlider
 
-/// 是否从中间双向滑动
+/// 零点是否在中间
 @property (nonatomic, assign, getter=isBidirection) BOOL bidirection;
 
 @end

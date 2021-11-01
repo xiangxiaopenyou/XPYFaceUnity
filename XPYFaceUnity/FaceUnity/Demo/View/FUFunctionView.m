@@ -49,6 +49,15 @@
     return self;
 }
 
+- (void)refreshSubviews {
+    if (self.slider.isHidden) {
+        return;
+    }
+    FUSubModel *subModel = self.viewModel.model.moduleData[self.viewModel.selectedIndex];
+    self.slider.bidirection = subModel.isBidirection;
+    self.slider.value = subModel.currentValue / subModel.ratio;
+}
+
 #pragma mark - Event response
 - (void)sliderValueChanged {
     if (self.delegate && [self.delegate respondsToSelector:@selector(functionView:didChangeSliderValue:)]) {

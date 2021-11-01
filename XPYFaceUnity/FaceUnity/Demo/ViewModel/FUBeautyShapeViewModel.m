@@ -27,8 +27,13 @@
             NSString *path = [[NSBundle mainBundle] pathForResource:@"face_beautification" ofType:@"bundle"];
             self.beauty = [[FUBeauty alloc] initWithPath:path name:@"FUBeauty"];
             self.beauty.heavyBlur = 0;
-            self.beauty.blurType = 2;
+            self.beauty.blurType = 3;
             self.beauty.faceShape = 4;
+        }
+        
+        // 默认美颜
+        for (FUSubModel *subModel in self.model.moduleData) {
+            [self updateData:subModel];
         }
     }
     return self;
@@ -49,6 +54,7 @@
     [super stopRender];
     [FURenderKit shareRenderKit].beauty.enable = NO;
     [FURenderKit shareRenderKit].beauty = nil;
+    
 }
 
 - (void)updateData:(FUSubModel *)subModel {
@@ -64,10 +70,13 @@
             self.beauty.cheekV = subModel.currentValue;
             break;
         case FUBeautyShapeItemCheekNarrow:
-            self.beauty.cheekNarrow = subModel.currentValue;
+            self.beauty.cheekNarrowV2 = subModel.currentValue;
+            break;
+        case FUBeautyShapeItemCheekShort:
+            self.beauty.cheekShort = subModel.currentValue;
             break;
         case FUBeautyShapeItemCheekSmall:
-            self.beauty.cheekSmall = subModel.currentValue;
+            self.beauty.cheekSmallV2 = subModel.currentValue;
             break;
         case FUBeautyShapeItemCheekBones:
             self.beauty.intensityCheekbones = subModel.currentValue;
@@ -76,7 +85,7 @@
             self.beauty.intensityLowerJaw = subModel.currentValue;
             break;
         case FUBeautyShapeItemEyeEnlarging:
-            self.beauty.eyeEnlarging = subModel.currentValue;
+            self.beauty.eyeEnlargingV2 = subModel.currentValue;
             break;
         case FUBeautyShapeItemEyeCircle:
             self.beauty.intensityEyeCircle = subModel.currentValue;
@@ -85,13 +94,13 @@
             self.beauty.intensityChin = subModel.currentValue;
             break;
         case FUBeautyShapeItemForehead:
-            self.beauty.intensityForehead = subModel.currentValue;
+            self.beauty.intensityForeheadV2 = subModel.currentValue;
             break;
         case FUBeautyShapeItemNose:
-            self.beauty.intensityNose = subModel.currentValue;
+            self.beauty.intensityNoseV2 = subModel.currentValue;
             break;
         case FUBeautyShapeItemMouth:
-            self.beauty.intensityMouth = subModel.currentValue;
+            self.beauty.intensityMouthV2 = subModel.currentValue;
             break;
         case FUBeautyShapeItemCanthus:
             self.beauty.intensityCanthus = subModel.currentValue;
@@ -116,7 +125,14 @@
     }
 }
 
-- (BOOL)isDefaltValue {
+- (void)recover {
+    for (FUSubModel *subModel in self.model.moduleData) {
+        subModel.currentValue = subModel.defaultValue;
+        [self updateData:subModel];
+    }
+}
+
+- (BOOL)isDefaultValue {
     for (FUSubModel *subModel in self.model.moduleData) {
         int currentIntValue = subModel.isBidirection ? (int)(subModel.currentValue / subModel.ratio * 100 - 50) : (int)(subModel.currentValue / subModel.ratio * 100);
         int defaultIntValue = subModel.isBidirection ? (int)(subModel.defaultValue / subModel.ratio * 100 - 50) : (int)(subModel.defaultValue / subModel.ratio * 100);

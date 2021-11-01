@@ -89,7 +89,7 @@ static NSString * const kFUOthersCellIdentifierKey = @"FUBeautyCellIdentifier";
     return CGSizeMake(54, 74);
 }
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(16, 18, 10, 18) ;
+    return UIEdgeInsetsMake(16, 18, 6, 18) ;
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     return 16.f;
