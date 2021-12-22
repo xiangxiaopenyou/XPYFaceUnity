@@ -23,6 +23,7 @@ xcuserdata/
 *.xcscmblueprint
 .DS_Store
 */.DS_Store
+authpack.h
 
 ## Obj-C/Swift specific
 *.hmap
