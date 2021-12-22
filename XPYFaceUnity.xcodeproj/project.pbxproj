@@ -87,6 +87,7 @@
 		E3E4B94B269EDE1200853FA7 /* sdlu.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3E4B931269EDE1200853FA7 /* sdlu.bundle */; };
 		E3E4B94C269EDE1200853FA7 /* xueqiu_lm_fu.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3E4B932269EDE1200853FA7 /* xueqiu_lm_fu.bundle */; };
 		E3E4B94F269EDE1200853FA7 /* DaisyPig.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3E4B935269EDE1200853FA7 /* DaisyPig.bundle */; };
+		E3E4DEC32768891A000FA726 /* XPYCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = E3E4DEC22768891A000FA726 /* XPYCamera.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -223,6 +224,8 @@
 		E3E4B931269EDE1200853FA7 /* sdlu.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = sdlu.bundle; sourceTree = "<group>"; };
 		E3E4B932269EDE1200853FA7 /* xueqiu_lm_fu.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = xueqiu_lm_fu.bundle; sourceTree = "<group>"; };
 		E3E4B935269EDE1200853FA7 /* DaisyPig.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = DaisyPig.bundle; sourceTree = "<group>"; };
+		E3E4DEC12768891A000FA726 /* XPYCamera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XPYCamera.h; sourceTree = "<group>"; };
+		E3E4DEC22768891A000FA726 /* XPYCamera.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XPYCamera.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -285,6 +288,8 @@
 				E30E6E7426314B73005FFAAE /* XPYHelper.m */,
 				E340F3DE26285A00001D967B /* XPYTools.h */,
 				E340F3DF26285A00001D967B /* XPYTools.m */,
+				E3E4DEC12768891A000FA726 /* XPYCamera.h */,
+				E3E4DEC22768891A000FA726 /* XPYCamera.m */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -641,6 +646,7 @@
 				E328D40126A523C3005DA1A3 /* FUStickerModel.m in Sources */,
 				E375B09B26789B9700A3D13E /* FUStickerViewModel.m in Sources */,
 				E375B1CC267B3DDD00A3D13E /* FUManager.m in Sources */,
+				E3E4DEC32768891A000FA726 /* XPYCamera.m in Sources */,
 				E328D41D26A69D1D005DA1A3 /* FUFunctionView.m in Sources */,
 				E30E6ECA2632AB10005FFAAE /* XPYGLViewController.m in Sources */,
 				E328D3FB26A52388005DA1A3 /* FUBeautyShapeModel.m in Sources */,
