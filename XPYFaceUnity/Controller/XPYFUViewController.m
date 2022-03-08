@@ -8,6 +8,7 @@
 #import "XPYFUViewController.h"
 #import "FUDemoManager.h"
 #import "FUManager.h"
+#import "XPYPerformanceTester.h"
 
 @interface XPYFUViewController ()<FURenderKitDelegate>
 
@@ -26,7 +27,21 @@
     
     [[FUManager shareManager] startCaptureWithDisplayView:self.displayView renderDelegate:self];
     
-    [FUDemoManager setupFaceUnityDemoInController:self originY:CGRectGetHeight(self.view.frame) - 100];
+    CGFloat height = 0;
+    if (@available(iOS 11.0, *)) {
+        height = [UIApplication sharedApplication].delegate.window.safeAreaInsets.bottom;
+    }
+    [FUDemoManager setupFaceUnityDemoInController:self originY:CGRectGetHeight(self.view.frame) - 100 - height];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [[FURenderKit shareRenderKit] stopInternalCamera];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[FURenderKit shareRenderKit] startInternalCamera];
 }
 
 #pragma mark - FURenderKitDelegate
@@ -36,6 +51,7 @@
 - (void)renderKitWillRenderFromRenderInput:(FURenderInput *)renderInput {
 }
 - (void)renderKitDidRenderToOutput:(FURenderOutput *)renderOutput {
+    
 }
 
 #pragma mark - Getters

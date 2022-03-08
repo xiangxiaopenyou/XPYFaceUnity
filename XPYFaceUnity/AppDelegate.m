@@ -23,6 +23,7 @@
     XPYTabBarController *tabBarController = [[XPYTabBarController alloc] init];
     
     self.window.rootViewController = tabBarController;
+    
     return YES;
 }
 

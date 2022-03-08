@@ -62,7 +62,16 @@
     }
 }
 
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    if ([EAGLContext currentContext] == self.context) {
+        [EAGLContext setCurrentContext:nil];
+    }
+}
+
 #pragma mark - Private methods
+
 /// 创建缓冲区对象
 - (void)createBuffers {
     // 创建帧缓冲区对象
@@ -114,10 +123,6 @@
         _program = [XPYHelper programWithVertexShader:vertexShader fragmentShader:fragmentShader];
     }
     return _program;
-}
-
-- (void)dealloc {
-    
 }
 
 @end

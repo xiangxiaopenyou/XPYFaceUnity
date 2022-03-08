@@ -75,7 +75,7 @@ static FUManager *shareManager = NULL;
 }
 
 - (void)startCaptureWithDisplayView:(FUGLDisplayView *)displayView renderDelegate:(id)delegate {
-    [[FURenderKit shareRenderKit] startInternalCamera];
+    // [[FURenderKit shareRenderKit] startInternalCamera];
     // 摄像头默认设置为前置
     if (![FURenderKit shareRenderKit].captureCamera.isFrontCamera) {
         [[FURenderKit shareRenderKit].captureCamera changeCameraInputDeviceisFront:YES];

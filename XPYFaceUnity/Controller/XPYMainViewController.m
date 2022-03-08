@@ -58,7 +58,11 @@
         model3.type = XPYGLViewTypeCircle;
         model3.title = @"圆形";
         
-        _dataSource = @[model1, model2, model3];
+        XPYGLModel *model4 = [[XPYGLModel alloc] init];
+        model4.type = XPYGLViewTypePicture;
+        model4.title = @"图片渲染";
+        
+        _dataSource = @[model1, model2, model3, model4];
     }
     return _dataSource;
 }

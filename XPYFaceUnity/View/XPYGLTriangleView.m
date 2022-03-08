@@ -30,7 +30,7 @@
     
     glViewport(0, self.safeAreaInsets.bottom, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds) - self.safeAreaInsets.top - self.safeAreaInsets.bottom);
     
-    // 顶点位置数组
+    // 顶点位置数组                           
     GLfloat vertices[] = {
         0.f, 1.f,
         -1.f, -1.f,
@@ -43,18 +43,18 @@
     glVertexAttribPointer(postion, 2, GL_FLOAT, GL_FALSE, 0, vertices);
     
     glEnableVertexAttribArray(postion);
-    
-    // 顶点颜色数组
-    static GLfloat colors[] = {
-        0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 0.0f,
-        0.0f, 1.0f, 0.0f
-    };
-    // 获取顶点属性变量的颜色索引
-    GLint color = glGetAttribLocation(self.program, "color");
-    // 设置顶点颜色属性的数据格式
-    glVertexAttribPointer(color, 3, GL_FLOAT, GL_FALSE, 0, colors);
-    glEnableVertexAttribArray(color);
+//
+//    // 顶点颜色数组
+//    static GLfloat colors[] = {
+//        0.0f, 0.0f, 1.0f,
+//        1.0f, 0.0f, 0.0f,
+//        0.0f, 1.0f, 0.0f
+//    };
+//    // 获取顶点属性变量的颜色索引
+//    GLint color = glGetAttribLocation(self.program, "color");
+//    // 设置顶点颜色属性的数据格式
+//    glVertexAttribPointer(color, 3, GL_FLOAT, GL_FALSE, 0, colors);
+//    glEnableVertexAttribArray(color);
     
     glDrawArrays(GL_TRIANGLES, 0, 3);
     

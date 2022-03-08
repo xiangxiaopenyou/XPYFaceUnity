@@ -20,6 +20,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.view.backgroundColor = [UIColor whiteColor];
+    
     XPYMainViewController *glController = [[XPYMainViewController alloc] init];
     glController.title = @"OpenGL";
     UINavigationController *navigation1 = [[UINavigationController alloc] initWithRootViewController:glController];
@@ -29,9 +31,11 @@
     UINavigationController *navigation2 = [[UINavigationController alloc] initWithRootViewController:fuSDKController];
     
     XPYCameraViewController *cameraController = [[XPYCameraViewController alloc] init];
+    cameraController.title = @"Camera";
     UINavigationController *navigation3 = [[UINavigationController alloc] initWithRootViewController:cameraController];
     
     self.tabBar.translucent = NO;
+    self.tabBar.backgroundColor = [UIColor grayColor];
     
     [self setViewControllers:@[navigation1, navigation2, navigation3]];
 }

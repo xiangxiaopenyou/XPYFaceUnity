@@ -63,6 +63,11 @@
 		E375B1EA267B3FC500A3D13E /* body_slim.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E375B1DC267B3FC500A3D13E /* body_slim.bundle */; };
 		E375B1EB267B3FC500A3D13E /* fuzzytoonfilter.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E375B1DD267B3FC500A3D13E /* fuzzytoonfilter.bundle */; };
 		E375B1EC267B3FC500A3D13E /* face_beautification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E375B1DE267B3FC500A3D13E /* face_beautification.bundle */; };
+		E381E32C27D0728300445B0F /* test.png in Resources */ = {isa = PBXBuildFile; fileRef = E381E32B27D0728300445B0F /* test.png */; };
+		E38D223127BCDEBA00F48A49 /* XPYGLContext.m in Sources */ = {isa = PBXBuildFile; fileRef = E38D223027BCDEBA00F48A49 /* XPYGLContext.m */; };
+		E38D224E27BF76CE00F48A49 /* XPYPerformanceTester.m in Sources */ = {isa = PBXBuildFile; fileRef = E38D224D27BF76CE00F48A49 /* XPYPerformanceTester.m */; };
+		E395A0CA2785B3D800FA0C7C /* XPYGLRenderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E395A0C92785B3D700FA0C7C /* XPYGLRenderView.m */; };
+		E3AD0CC727D5FCBB000C6574 /* XPYGLPictureRenderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AD0CC627D5FCBB000C6574 /* XPYGLPictureRenderView.m */; };
 		E3CE4CB426CBD49D00ED0B4E /* FURenderKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3CE4CB226CBD49800ED0B4E /* FURenderKit.framework */; };
 		E3CE4CB526CBD49D00ED0B4E /* FURenderKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E3CE4CB226CBD49800ED0B4E /* FURenderKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E3E4B936269EDE1200853FA7 /* oumei.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3E4B91B269EDE1200853FA7 /* oumei.bundle */; };
@@ -152,7 +157,7 @@
 		E3457B91267313140036B2AB /* XPYTabBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XPYTabBarController.h; sourceTree = "<group>"; };
 		E3457B92267313140036B2AB /* XPYTabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XPYTabBarController.m; sourceTree = "<group>"; };
 		E3457B9D267330360036B2AB /* XPYFUViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XPYFUViewController.h; sourceTree = "<group>"; };
-		E3457B9E267330360036B2AB /* XPYFUViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XPYFUViewController.m; sourceTree = "<group>"; };
+		E3457B9E267330360036B2AB /* XPYFUViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XPYFUViewController.m; sourceTree = "<group>"; wrapsLines = 0; };
 		E3457BA1267330DF0036B2AB /* FUBottomBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUBottomBar.h; sourceTree = "<group>"; };
 		E3457BA2267330DF0036B2AB /* FUBottomBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FUBottomBar.m; sourceTree = "<group>"; };
 		E3457BA826733AFE0036B2AB /* FUViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FUViewModel.h; sourceTree = "<group>"; };
@@ -201,6 +206,15 @@
 		E375B1DC267B3FC500A3D13E /* body_slim.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = body_slim.bundle; sourceTree = "<group>"; };
 		E375B1DD267B3FC500A3D13E /* fuzzytoonfilter.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = fuzzytoonfilter.bundle; sourceTree = "<group>"; };
 		E375B1DE267B3FC500A3D13E /* face_beautification.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = face_beautification.bundle; sourceTree = "<group>"; };
+		E381E32B27D0728300445B0F /* test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test.png; sourceTree = "<group>"; };
+		E38D222F27BCDEBA00F48A49 /* XPYGLContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XPYGLContext.h; sourceTree = "<group>"; };
+		E38D223027BCDEBA00F48A49 /* XPYGLContext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XPYGLContext.m; sourceTree = "<group>"; };
+		E38D224C27BF76CE00F48A49 /* XPYPerformanceTester.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XPYPerformanceTester.h; sourceTree = "<group>"; };
+		E38D224D27BF76CE00F48A49 /* XPYPerformanceTester.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XPYPerformanceTester.m; sourceTree = "<group>"; };
+		E395A0C82785B3D700FA0C7C /* XPYGLRenderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XPYGLRenderView.h; sourceTree = "<group>"; };
+		E395A0C92785B3D700FA0C7C /* XPYGLRenderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XPYGLRenderView.m; sourceTree = "<group>"; };
+		E3AD0CC527D5FCBB000C6574 /* XPYGLPictureRenderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XPYGLPictureRenderView.h; sourceTree = "<group>"; };
+		E3AD0CC627D5FCBB000C6574 /* XPYGLPictureRenderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XPYGLPictureRenderView.m; sourceTree = "<group>"; };
 		E3CE4CB226CBD49800ED0B4E /* FURenderKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FURenderKit.framework; sourceTree = "<group>"; };
 		E3E4B91B269EDE1200853FA7 /* oumei.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = oumei.bundle; sourceTree = "<group>"; };
 		E3E4B91C269EDE1200853FA7 /* Rose.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = Rose.bundle; sourceTree = "<group>"; };
@@ -225,7 +239,7 @@
 		E3E4B932269EDE1200853FA7 /* xueqiu_lm_fu.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = xueqiu_lm_fu.bundle; sourceTree = "<group>"; };
 		E3E4B935269EDE1200853FA7 /* DaisyPig.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = DaisyPig.bundle; sourceTree = "<group>"; };
 		E3E4DEC12768891A000FA726 /* XPYCamera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XPYCamera.h; sourceTree = "<group>"; };
-		E3E4DEC22768891A000FA726 /* XPYCamera.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XPYCamera.m; sourceTree = "<group>"; };
+		E3E4DEC22768891A000FA726 /* XPYCamera.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XPYCamera.m; sourceTree = "<group>"; wrapsLines = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,10 +272,10 @@
 				E30E6EBD2632A1FC005FFAAE /* XPYMainViewController.m */,
 				E30E6EC82632AB10005FFAAE /* XPYGLViewController.h */,
 				E30E6EC92632AB10005FFAAE /* XPYGLViewController.m */,
-				E340F32726243141001D967B /* XPYCameraViewController.h */,
-				E340F32826243141001D967B /* XPYCameraViewController.m */,
 				E3457B9D267330360036B2AB /* XPYFUViewController.h */,
 				E3457B9E267330360036B2AB /* XPYFUViewController.m */,
+				E340F32726243141001D967B /* XPYCameraViewController.h */,
+				E340F32826243141001D967B /* XPYCameraViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -277,6 +291,10 @@
 				E30E6ED02632B037005FFAAE /* XPYGLTriangleView.m */,
 				E32D4C4D263698DD00E6C1C2 /* XPYGLCircleView.h */,
 				E32D4C4E263698DD00E6C1C2 /* XPYGLCircleView.m */,
+				E395A0C82785B3D700FA0C7C /* XPYGLRenderView.h */,
+				E395A0C92785B3D700FA0C7C /* XPYGLRenderView.m */,
+				E3AD0CC527D5FCBB000C6574 /* XPYGLPictureRenderView.h */,
+				E3AD0CC627D5FCBB000C6574 /* XPYGLPictureRenderView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -290,6 +308,8 @@
 				E340F3DF26285A00001D967B /* XPYTools.m */,
 				E3E4DEC12768891A000FA726 /* XPYCamera.h */,
 				E3E4DEC22768891A000FA726 /* XPYCamera.m */,
+				E38D224C27BF76CE00F48A49 /* XPYPerformanceTester.h */,
+				E38D224D27BF76CE00F48A49 /* XPYPerformanceTester.m */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -322,6 +342,7 @@
 		E340F30826243032001D967B /* XPYFaceUnity */ = {
 			isa = PBXGroup;
 			children = (
+				E381E2D727CF509E00445B0F /* OpenGL */,
 				E30E6EBA2632A1A5005FFAAE /* Controller */,
 				E30E6EBB2632A1A9005FFAAE /* View */,
 				E30E6EC32632A940005FFAAE /* Model */,
@@ -330,6 +351,7 @@
 				E3457B94267314D90036B2AB /* FaceUnity */,
 				E340F30926243032001D967B /* AppDelegate.h */,
 				E340F30A26243032001D967B /* AppDelegate.m */,
+				E381E32B27D0728300445B0F /* test.png */,
 				E340F31526243034001D967B /* Assets.xcassets */,
 				E340F31726243034001D967B /* LaunchScreen.storyboard */,
 				E375B079267850B600A3D13E /* Info.plist */,
@@ -482,6 +504,15 @@
 			path = graphics;
 			sourceTree = "<group>";
 		};
+		E381E2D727CF509E00445B0F /* OpenGL */ = {
+			isa = PBXGroup;
+			children = (
+				E38D222F27BCDEBA00F48A49 /* XPYGLContext.h */,
+				E38D223027BCDEBA00F48A49 /* XPYGLContext.m */,
+			);
+			path = OpenGL;
+			sourceTree = "<group>";
+		};
 		E3E4B91A269EDE1200853FA7 /* 美妆 */ = {
 			isa = PBXGroup;
 			children = (
@@ -595,6 +626,7 @@
 				E3E4B93D269EDE1200853FA7 /* hongfeng.bundle in Resources */,
 				E3E4B939269EDE1200853FA7 /* yanshimao.bundle in Resources */,
 				E3E4B940269EDE1200853FA7 /* chuju.bundle in Resources */,
+				E381E32C27D0728300445B0F /* test.png in Resources */,
 				E375B1E1267B3FC500A3D13E /* ai_face_processor.bundle in Resources */,
 				E3E4B93E269EDE1200853FA7 /* jianling.bundle in Resources */,
 				E375B1E0267B3FC500A3D13E /* ai_hand_processor.bundle in Resources */,
@@ -632,7 +664,9 @@
 				E340F30B26243032001D967B /* AppDelegate.m in Sources */,
 				E3457B9F267330360036B2AB /* XPYFUViewController.m in Sources */,
 				E375B09E26789BB000A3D13E /* FUBeautyBodyViewModel.m in Sources */,
+				E38D223127BCDEBA00F48A49 /* XPYGLContext.m in Sources */,
 				E375B0F1267A027400A3D13E /* FUBeautyFunctionView.m in Sources */,
+				E3AD0CC727D5FCBB000C6574 /* XPYGLPictureRenderView.m in Sources */,
 				E30E6E57262FF406005FFAAE /* XPYGLView.m in Sources */,
 				E340F31C26243034001D967B /* main.m in Sources */,
 				E3457BAA26733AFE0036B2AB /* FUViewModel.m in Sources */,
@@ -640,12 +674,14 @@
 				E3457BAD26733EE90036B2AB /* FUBeautySkinViewModel.m in Sources */,
 				E328D40A26A5733D005DA1A3 /* FUSlider.m in Sources */,
 				E328D40426A5241D005DA1A3 /* FUMakeupModel.m in Sources */,
+				E395A0CA2785B3D800FA0C7C /* XPYGLRenderView.m in Sources */,
 				E328D3F826A5235E005DA1A3 /* FUBeautySkinModel.m in Sources */,
 				E328D3FE26A523A6005DA1A3 /* FUFilterModel.m in Sources */,
 				E340F32926243141001D967B /* XPYCameraViewController.m in Sources */,
 				E328D40126A523C3005DA1A3 /* FUStickerModel.m in Sources */,
 				E375B09B26789B9700A3D13E /* FUStickerViewModel.m in Sources */,
 				E375B1CC267B3DDD00A3D13E /* FUManager.m in Sources */,
+				E38D224E27BF76CE00F48A49 /* XPYPerformanceTester.m in Sources */,
 				E3E4DEC32768891A000FA726 /* XPYCamera.m in Sources */,
 				E328D41D26A69D1D005DA1A3 /* FUFunctionView.m in Sources */,
 				E30E6ECA2632AB10005FFAAE /* XPYGLViewController.m in Sources */,

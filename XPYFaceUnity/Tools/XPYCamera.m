@@ -13,17 +13,18 @@
 /// 强引用对象
 #define strongify(object) autoreleasepool{} __typeof__(object) object = weak##_##object;
 
-@interface XPYCamera ()<AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureVideoDataOutputSampleBufferDelegate>
+@interface XPYCamera ()<AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureVideoDataOutputSampleBufferDelegate> {
+    /// 视频、音频采集队列
+    dispatch_queue_t videoCaptureQueue, audioCaptureQueue;
+}
 
 @property (nonatomic, strong) AVCaptureSession *captureSession;
 
 @property (nonatomic, strong) AVCaptureConnection *captureConnetion;
 
 @property (nonatomic, strong) AVCaptureDevice *cameraDevice;
-/// 前置摄像头输入
-@property (nonatomic, strong) AVCaptureDeviceInput *frontCameraInput;
-/// 后置摄像头输入
-@property (nonatomic, strong) AVCaptureDeviceInput *backCameraInput;
+/// 摄像头输入
+@property (nonatomic, strong) AVCaptureDeviceInput *videoInput;
 /// 麦克风输入
 @property (nonatomic, strong) AVCaptureDeviceInput *microphoneInput;
 /// 视频数据输出
@@ -31,17 +32,7 @@
 /// 音频数据输出
 @property (nonatomic, strong) AVCaptureAudioDataOutput *audioDataOutput;
 
-@property (nonatomic, assign) AVCaptureDevicePosition captureDevicePosition;
-
 @property (nonatomic, assign) int captureFormat;
-
-@property (nonatomic, assign) AVCaptureSessionPreset captureSessionPreset;
-/// 操作队列
-@property (nonatomic, strong) dispatch_queue_t operationQueue;
-/// 视频采集队列
-@property (nonatomic, strong) dispatch_queue_t videoCaptureQueue;
-/// 音频采集队列
-@property (nonatomic, strong) dispatch_queue_t audioCaptureQueue;
 
 @end
 
@@ -58,133 +49,160 @@
 - (instancetype)initWithCameraPosition:(AVCaptureDevicePosition)position captureFormat:(int)captureFormat captureSessionPreset:(AVCaptureSessionPreset)preset {
     self = [super init];
     if (self) {
+        
+        videoCaptureQueue = dispatch_queue_create("xiang.videoCaptureQueue", NULL);
+        audioCaptureQueue = dispatch_queue_create("xiang.audioCaptureQueue", NULL);
+        
         _captureDevicePosition = position;
         _captureFormat = captureFormat;
         _captureSessionPreset = preset;
+        
+        // 摄像头设备
+        self.cameraDevice = position ==  AVCaptureDevicePositionFront ? [self frontCamera] : [self backCamera];
+        NSAssert(self.cameraDevice, @"Camera device can not be nil");
+        
+        _captureSession = [[AVCaptureSession alloc] init];
+        [_captureSession beginConfiguration];
+        self.videoInput = [[AVCaptureDeviceInput alloc] initWithDevice:self.cameraDevice error:nil];
+        if ([self.captureSession canAddInput:self.videoInput]) {
+            [self.captureSession addInput:self.videoInput];
+        }
+        if ([_captureSession canAddInput:self.microphoneInput]) {
+            [_captureSession addInput:self.microphoneInput];
+        }
+        if ([_captureSession canAddOutput:self.videoDataOutput]) {
+            [_captureSession addOutput:self.videoDataOutput];
+        }
+        if ([_captureSession canAddOutput:self.audioDataOutput]) {
+            [_captureSession addOutput:self.audioDataOutput];
+        }
+        if ([_captureSession canSetSessionPreset:self.captureSessionPreset]) {
+            _captureSession.sessionPreset = self.captureSessionPreset;
+        } else {
+            _captureSession.sessionPreset = AVCaptureSessionPreset1280x720;
+        }
+        [_captureSession commitConfiguration];
+        
     }
     return self;
 }
 
-#pragma mark - Instance methods
+#pragma mark - Dealloc
 
-- (void)startCapturing {
-    @weakify(self)
-    [self addOperationToOperationQueueWithBlock:^{
-        @strongify(self)
-        if (!self.captureSession.isRunning) {
-            [self.captureSession startRunning];
-        }
-    }];
+- (void)dealloc {
+    [self stopCapture];
+    
+    [self.videoDataOutput setSampleBufferDelegate:nil queue:nil];
+    [self.audioDataOutput setSampleBufferDelegate:nil queue:nil];
+    
+    [self.captureSession beginConfiguration];
+    if (_microphoneInput) {
+        [self.captureSession removeInput:_microphoneInput];
+    }
+    if (_videoInput) {
+        [self.captureSession removeInput:_videoInput];
+    }
+    if (_audioDataOutput) {
+        [self.captureSession removeOutput:_audioDataOutput];
+    }
+    if (_videoDataOutput) {
+        [self.captureSession removeOutput:_videoDataOutput];
+    }
+    [self.captureSession commitConfiguration];
 }
 
-- (void)stopCapturing {
-    @weakify(self)
-    [self addOperationToOperationQueueWithBlock:^{
-        @strongify(self)
-        if (self.captureSession.isRunning) {
-            [self.captureSession stopRunning];
+#pragma mark - Instance methods
+
+- (void)startCapture {
+    if (!self.captureSession.isRunning) {
+        [self.captureSession startRunning];
+    }
+}
+
+- (void)stopCapture {
+    if (self.captureSession.isRunning) {
+        [self.captureSession stopRunning];
+    }
+}
+
+- (BOOL)switchDevicePosition {
+    AVCaptureDevice *targetDevice = nil;
+    if (_captureDevicePosition == AVCaptureDevicePositionFront) {
+        targetDevice = [self backCamera];
+    } else {
+        targetDevice = [self frontCamera];
+    }
+    BOOL result = NO;
+    NSError *error = nil;
+    AVCaptureDeviceInput *targetInput = [[AVCaptureDeviceInput alloc] initWithDevice:targetDevice error:&error];
+    if (!error) {
+        [self.captureSession beginConfiguration];
+        [self.captureSession removeInput:self.videoInput];
+        if ([self.captureSession canAddInput:targetInput]) {
+            [self.captureSession addInput:targetInput];
+            self.videoInput = targetInput;
+            _captureDevicePosition = _captureDevicePosition == AVCaptureDevicePositionFront ? AVCaptureDevicePositionBack : AVCaptureDevicePositionFront;
+            self.cameraDevice = targetDevice;
+            result = YES;
+        } else {
+            [self.captureSession addInput:self.videoInput];
+            NSLog(@"addInput failed!");
         }
-    }];
+        [self.captureSession commitConfiguration];
+    } else {
+        NSLog(@"Initialize AVCaptureDeviceInput failed.");
+    }
+    return result;
+}
+
+- (BOOL)switchSessionPreset:(AVCaptureSessionPreset)preset {
+    BOOL result = NO;
+    [self.captureSession beginConfiguration];
+    if ([self.captureSession canSetSessionPreset:preset]) {
+        self.captureSession.sessionPreset = preset;
+        _captureSessionPreset = preset;
+        result = YES;
+    }
+    [self.captureSession commitConfiguration];
+    if (!result) {
+        NSLog(@"switchSessionPreset failed.");
+    }
+    return result;
 }
 
 #pragma mark - Private methods
 
-- (void)addOperationToOperationQueueWithBlock:(dispatch_block_t)block {
-    block();
-    if (dispatch_get_specific(operationQueueKey)) {
-        block();
-    } else {
-        dispatch_sync(self.operationQueue, ^{
-            block();
-        });
-    }
-}
-
 #pragma mark - AVCaptureDataOutputSampleBufferDelegate
 
 - (void)captureOutput:(AVCaptureOutput *)output didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
+    if (!self.captureSession.isRunning) {
+        return;
+    }
     if (output == self.videoDataOutput) {
         NSLog(@"⭐️视频输出");
+        if (self.delegate && [self.delegate respondsToSelector:@selector(camera:didOutputVideoSampleBuffer:)]) {
+            [self.delegate camera:self didOutputVideoSampleBuffer:sampleBuffer];
+        }
     } else {
         NSLog(@"⭐️音频输出");
+        if (self.delegate && [self.delegate respondsToSelector:@selector(camera:didOutputAudioSampleBuffer:)]) {
+            [self.delegate camera:self didOutputAudioSampleBuffer:sampleBuffer];
+        }
     }
 }
 
+
 #pragma mark - Getters
 
-- (AVCaptureSession *)captureSession {
-    if (!_captureSession) {
-        @weakify(self)
-        [self addOperationToOperationQueueWithBlock:^{
-            @strongify(self)
-            self->_captureSession = [[AVCaptureSession alloc] init];
-            [self->_captureSession beginConfiguration];
-            AVCaptureDeviceInput *input = self.captureDevicePosition == AVCaptureDevicePositionFront ? self.frontCameraInput : self.backCameraInput;
-            if ([self->_captureSession canAddInput:input]) {
-                [self->_captureSession addInput:input];
-            }
-            if ([self->_captureSession canAddInput:self.microphoneInput]) {
-                [self->_captureSession addInput:self.microphoneInput];
-            }
-            if ([self->_captureSession canAddOutput:self.videoDataOutput]) {
-                [self->_captureSession addOutput:self.videoDataOutput];
-            }
-            if ([self->_captureSession canAddOutput:self.audioDataOutput]) {
-                [self->_captureSession addOutput:self.audioDataOutput];
-            }
-            if ([self->_captureSession canSetSessionPreset:self.captureSessionPreset]) {
-                self->_captureSession.sessionPreset = self.captureSessionPreset;
-            } else {
-                self->_captureSession.sessionPreset = AVCaptureSessionPreset1280x720;
-            }
-            if ([input.device lockForConfiguration:nil]) {
-                input.device.activeVideoMaxFrameDuration = CMTimeMake(1, 30);
-                [input.device unlockForConfiguration];
-            }
-            [self->_captureSession commitConfiguration];
-        }];
-    }
-    return _captureSession;
+- (BOOL)isRunning {
+    return self.captureSession.isRunning;
 }
 
 - (AVCaptureConnection *)captureConnetion {
     if (!_captureConnetion) {
-        @weakify(self)
-        [self addOperationToOperationQueueWithBlock:^{
-            @strongify(self)
-            self->_captureConnetion = [self.videoDataOutput connectionWithMediaType:AVMediaTypeVideo];
-            self->_captureConnetion.automaticallyAdjustsVideoMirroring = NO;
-            [self->_captureConnetion setVideoOrientation:AVCaptureVideoOrientationPortrait];
-            if (self->_captureConnetion.supportsVideoMirroring && self.captureDevicePosition == AVCaptureDevicePositionFront) {
-                self->_captureConnetion.videoMirrored = YES;
-            } else {
-                self->_captureConnetion.videoMirrored = NO;
-            }
-        }];
+        _captureConnetion = [self.videoDataOutput connectionWithMediaType:AVMediaTypeVideo];
     }
     return _captureConnetion;
-}
-
-- (AVCaptureDeviceInput *)frontCameraInput {
-    if (!_frontCameraInput) {
-        NSError *error = nil;
-        _frontCameraInput = [[AVCaptureDeviceInput alloc] initWithDevice:[self frontCamera] error:&error];
-        if (error) {
-            NSLog(@"获取前置摄像头失败");
-        }
-    }
-    return _frontCameraInput;
-}
-
-- (AVCaptureDeviceInput *)backCameraInput {
-    if (!_backCameraInput) {
-        NSError *error = nil;
-        _backCameraInput = [[AVCaptureDeviceInput alloc] initWithDevice:[self backCamera] error:&error];
-        if (error) {
-            NSLog(@"获取后置摄像头失败");
-        }
-    }
-    return _backCameraInput;
 }
 
 - (AVCaptureDeviceInput *)microphoneInput {
@@ -250,7 +268,7 @@
 - (AVCaptureAudioDataOutput *)audioDataOutput {
     if (!_audioDataOutput) {
         _audioDataOutput = [[AVCaptureAudioDataOutput alloc] init];
-        [_audioDataOutput setSampleBufferDelegate:self queue:self.audioCaptureQueue];
+        [_audioDataOutput setSampleBufferDelegate:self queue:audioCaptureQueue];
     }
     return _audioDataOutput;
 }
@@ -260,31 +278,9 @@
         _videoDataOutput = [[AVCaptureVideoDataOutput alloc] init];
         _videoDataOutput.alwaysDiscardsLateVideoFrames = YES;
         _videoDataOutput.videoSettings = @{(id)kCVPixelBufferPixelFormatTypeKey : @(self.captureFormat)};
-        [_videoDataOutput setSampleBufferDelegate:self queue:self.videoCaptureQueue];
+        [_videoDataOutput setSampleBufferDelegate:self queue:videoCaptureQueue];
     }
     return _videoDataOutput;
-}
-
-- (dispatch_queue_t)operationQueue {
-    if (!_operationQueue) {
-        _operationQueue = dispatch_queue_create("xiang.operationQueue", DISPATCH_QUEUE_SERIAL);
-        dispatch_queue_set_specific(_operationQueue, &operationQueueKey, (__bridge void *)self, NULL);
-    }
-    return _operationQueue;
-}
-
-- (dispatch_queue_t)videoCaptureQueue {
-    if (!_videoCaptureQueue) {
-        _videoCaptureQueue = dispatch_queue_create("xiang.videoCaptureQueue", DISPATCH_QUEUE_SERIAL);
-    }
-    return _videoCaptureQueue;
-}
-
-- (dispatch_queue_t)audioCaptureQueue {
-    if (!_audioCaptureQueue) {
-        _audioCaptureQueue = dispatch_queue_create("xiang.audioCaptureQueue", DISPATCH_QUEUE_SERIAL);
-    }
-    return _audioCaptureQueue;
 }
 
 @end

@@ -13,7 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSUInteger, XPYGLViewType) {
     XPYGLViewTypeBackground,// 纯色背景
     XPYGLViewTypeTriangle,  // 三角形
-    XPYGLViewTypeCircle     // 圆形
+    XPYGLViewTypeCircle,    // 圆形
+    XPYGLViewTypePicture    // 图片
 };
 
 @interface XPYGLModel : NSObject

@@ -11,6 +11,7 @@
 
 #import "XPYGLBackgroundView.h"
 #import "XPYGLTriangleView.h"
+#import "XPYGLPictureRenderView.h"
 
 @interface XPYGLViewController ()
 
@@ -48,6 +49,11 @@
             break;
         case XPYGLViewTypeCircle: {
             
+        }
+            break;
+        case XPYGLViewTypePicture: {
+            XPYGLPictureRenderView *renderView = [[XPYGLPictureRenderView alloc] initWithFrame:self.view.bounds];
+            [self.view addSubview:renderView];
         }
             break;
     }
