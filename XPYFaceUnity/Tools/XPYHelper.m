@@ -9,6 +9,42 @@
 
 @implementation XPYHelper
 
++ (GLuint)shaderWithShaderString:(NSString *)shaderString type:(GLenum)shaderType {
+    if (!shaderString || shaderString.length == 0) {
+        return 0;
+    }
+    // 创建着色器对象
+    GLuint shader = glCreateShader(shaderType);
+    
+    const char * shaderChar = [shaderString UTF8String];
+    
+    // 将着色器代码挂载到着色器对象上
+    glShaderSource(shader, 1, &shaderChar, NULL);
+    
+    // 编译shader
+    glCompileShader(shader);
+    
+    // 获取编译状态
+    GLint success;
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+    if (success == GL_FALSE) {
+        // 获取编译错误信息
+        GLint infoLength = 0;
+        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLength);
+        if (infoLength > 1) {
+            char *infoLog = malloc(sizeof(char) * infoLength);
+            if (infoLog) {
+                glGetShaderInfoLog(shader, infoLength, NULL, infoLog);
+                NSLog(@"⭐️着色器编译错误：%@⭐️", [NSString stringWithCString:infoLog encoding:NSUTF8StringEncoding]);
+                free(infoLog);
+            }
+        }
+        glDeleteShader(shader);
+        return 0;
+    }
+    return shader;
+}
+
 + (GLuint)shaderWithFileName:(NSString *)fileName type:(GLenum)shaderType {
     NSString *filePath = [[NSBundle mainBundle] pathForResource:fileName ofType:@"glsl"];
     NSError *error = nil;

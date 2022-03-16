@@ -28,6 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param dataString 测试数据
 - (void)writeData:(nullable NSString *)dataString;
 
+/// 帧率测试
+- (void)frameRateTest;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -89,6 +89,24 @@
     [fileHandle closeFile];
 }
 
+static CFAbsoluteTime lastTime = 0;
+static int frame = 0;
+static float totalTime = 0;
+
+- (void)frameRateTest {
+    CFAbsoluteTime currentTime = CFAbsoluteTimeGetCurrent();
+    CFAbsoluteTime frameTime = currentTime - lastTime;
+    lastTime = currentTime;
+    totalTime += frameTime;
+    frame ++;
+    if (frame % 100 == 0) {
+        float perTime = totalTime / 100;
+        float fps = 1.f / perTime;
+        NSLog(@"⭐️FPS = %@⭐️", @(fps));
+        totalTime = 0;
+    }
+}
+
 #pragma mark - Private methods
 
 - (BOOL)createResultFile {

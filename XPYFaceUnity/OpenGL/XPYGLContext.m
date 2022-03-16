@@ -9,6 +9,32 @@
 
 #import <OpenGLES/EAGL.h>
 
+static void *openGLESContextQueueKey;
+
+void synchronousBlockOnContextQueue(void (^block)(void)) {
+    if (dispatch_get_specific(openGLESContextQueueKey)) {
+        [[XPYGLContext sharedContext] useCurrentContext];
+        block();
+    } else {
+        dispatch_sync([XPYGLContext sharedContextQueue], ^{
+            [[XPYGLContext sharedContext] useCurrentContext];
+            block();
+        });
+    }
+}
+
+void asynchronousBlockOnContextQueue(void (^block)(void)) {
+    if (dispatch_get_specific(openGLESContextQueueKey)) {
+        [[XPYGLContext sharedContext] useCurrentContext];
+        block();
+    } else {
+        dispatch_async([XPYGLContext sharedContextQueue], ^{
+            [[XPYGLContext sharedContext] useCurrentContext];
+            block();
+        });
+    }
+}
+
 @interface XPYGLContext ()
 
 @property (nonatomic, strong) EAGLContext *context;
@@ -19,8 +45,6 @@
 
 @implementation XPYGLContext
 
-static void *openGLESContextQueueKey;
-
 + (instancetype)sharedContext {
     static XPYGLContext *instance = nil;
     static dispatch_once_t onceToken;
@@ -28,6 +52,10 @@ static void *openGLESContextQueueKey;
         instance = [[XPYGLContext alloc] init];
     });
     return instance;
+}
+
++ (dispatch_queue_t)sharedContextQueue {
+    return [XPYGLContext sharedContext].contextQueue;
 }
 
 - (instancetype)init {
@@ -54,7 +82,5 @@ static void *openGLESContextQueueKey;
         [EAGLContext setCurrentContext:self.context];
     }
 }
-
-#pragma mark - Gettes
 
 @end

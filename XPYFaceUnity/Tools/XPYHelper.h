@@ -13,6 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface XPYHelper : NSObject
 
 /// 获取着色器对象
+/// @param shaderString 程序字符串
+/// @param shaderType 类型
++ (GLuint)shaderWithShaderString:(NSString *)shaderString type:(GLenum)shaderType;
+
+/// 获取着色器对象
 /// @param fileName 本地文件名
 /// @param shaderType 着色器类型
 + (GLuint)shaderWithFileName:(NSString *)fileName type:(GLenum)shaderType;

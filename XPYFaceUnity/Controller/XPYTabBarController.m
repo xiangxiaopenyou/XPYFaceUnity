@@ -8,7 +8,6 @@
 #import "XPYTabBarController.h"
 
 #import "XPYMainViewController.h"
-#import "XPYFUViewController.h"
 #import "XPYCameraViewController.h"
 
 @interface XPYTabBarController ()
@@ -26,18 +25,14 @@
     glController.title = @"OpenGL";
     UINavigationController *navigation1 = [[UINavigationController alloc] initWithRootViewController:glController];
     
-    XPYFUViewController *fuSDKController = [[XPYFUViewController alloc] init];
-    fuSDKController.title = @"FUSDK";
-    UINavigationController *navigation2 = [[UINavigationController alloc] initWithRootViewController:fuSDKController];
-    
     XPYCameraViewController *cameraController = [[XPYCameraViewController alloc] init];
     cameraController.title = @"Camera";
-    UINavigationController *navigation3 = [[UINavigationController alloc] initWithRootViewController:cameraController];
+    UINavigationController *navigation2 = [[UINavigationController alloc] initWithRootViewController:cameraController];
     
     self.tabBar.translucent = NO;
-    self.tabBar.backgroundColor = [UIColor grayColor];
+    self.tabBar.backgroundColor = [UIColor whiteColor];
     
-    [self setViewControllers:@[navigation1, navigation2, navigation3]];
+    [self setViewControllers:@[navigation1, navigation2]];
 }
 
 @end
